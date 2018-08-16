@@ -50,12 +50,12 @@ export class LoggingApiController {
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
-  public async writeLogForProcessModel(request: Request, response: Response): Promise<void> {
+  public async writeLogForProcessInstance(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this.loggingApiService.writeLogForProcessModel(correlationId, processModelId, payload.logLevel, payload.message);
+    await this.loggingApiService.writeLogForProcessInstance(correlationId, processModelId, payload.logLevel, payload.message);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
