@@ -55,7 +55,9 @@ export class LoggingApiController {
     const processModelId: string = request.params.process_model_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this.loggingApiService.writeLogForProcessInstance(correlationId, processModelId, payload.logLevel, payload.message);
+    await this
+      .loggingApiService
+      .writeLogForProcessInstance(correlationId, processModelId, payload.logLevel, payload.message, payload.timestamp);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
@@ -66,7 +68,9 @@ export class LoggingApiController {
     const flowNodeInstanceId: string = request.params.flow_node_instance_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this.loggingApiService.writeLogForFlowNodeInstance(correlationId, processModelId, flowNodeInstanceId, payload.logLevel, payload.message);
+    await this
+      .loggingApiService
+      .writeLogForFlowNodeInstance(correlationId, processModelId, flowNodeInstanceId, payload.logLevel, payload.message, payload.timestamp);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
