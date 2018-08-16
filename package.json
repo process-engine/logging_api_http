@@ -18,7 +18,9 @@
     "url": "https://github.com/process-engine/logging_api_http/issues"
   },
   "homepage": "https://github.com/process-engine/logging_api_http#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@process-engine/logging_api_contracts": "feature~initial_implementation"
+  },
   "devDependencies": {
     "@essential-projects/tslint-config": "1.0.0",
     "@types/express": "^4.11.0",
