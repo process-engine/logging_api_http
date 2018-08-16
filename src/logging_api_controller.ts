@@ -39,34 +39,34 @@ export class LoggingApiController {
   }
 
   public async getLogsForProcessInstance(request: Request, response: Response): Promise<void> {
-    const processModelId: string = request.params.process_model_id;
     const correlationId: string = request.params.correlation_id;
+    const processModelId: string = request.params.process_model_id;
     const logLevel: LogLevel = request.query.log_level;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.getLogsForProcessInstance(identity, processModelId, correlationId, logLevel);
+    const result: Array<LogEntry> = await this.loggingApiService.getLogsForProcessInstance(identity, correlationId, processModelId, logLevel);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
   public async writeLogForProcessModel(request: Request, response: Response): Promise<void> {
-    const processModelId: string = request.params.process_model_id;
     const correlationId: string = request.params.correlation_id;
+    const processModelId: string = request.params.process_model_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this.loggingApiService.writeLogForProcessModel(processModelId, correlationId, payload.logLevel, payload.message);
+    await this.loggingApiService.writeLogForProcessModel(correlationId, processModelId, payload.logLevel, payload.message);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
 
   public async writeLogForFlowNodeInstance(request: Request, response: Response): Promise<void> {
-    const processModelId: string = request.params.process_model_id;
     const correlationId: string = request.params.correlation_id;
+    const processModelId: string = request.params.process_model_id;
     const flowNodeInstanceId: string = request.params.flow_node_instance_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this.loggingApiService.writeLogForFlowNodeInstance(processModelId, correlationId, flowNodeInstanceId, payload.logLevel, payload.message);
+    await this.loggingApiService.writeLogForFlowNodeInstance(correlationId, processModelId, flowNodeInstanceId, payload.logLevel, payload.message);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
