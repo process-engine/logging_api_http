@@ -29,48 +29,46 @@ export class LoggingApiController {
 
   public async getLogsForCorrelation(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
-    const logLevel: LogLevel = request.query.log_level;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.getLogsForCorrelation(identity, correlationId, logLevel);
+    const result: Array<LogEntry> = await this.loggingApiService.getLogsForCorrelation(identity, correlationId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
-  public async getLogsForProcessInstance(request: Request, response: Response): Promise<void> {
+  public async getLogsForProcessModel(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
-    const logLevel: LogLevel = request.query.log_level;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.getLogsForProcessInstance(identity, correlationId, processModelId, logLevel);
+    const result: Array<LogEntry> = await this.loggingApiService.getLogsForProcessModel(identity, correlationId, processModelId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
-  public async writeLogForProcessInstance(request: Request, response: Response): Promise<void> {
+  public async writeLogForProcessModel(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
     const payload: WriteLogRequestPayload = request.body;
 
     await this
       .loggingApiService
-      .writeLogForProcessInstance(correlationId, processModelId, payload.logLevel, payload.message, payload.timestamp);
+      .writeLogForProcessModel(correlationId, processModelId, payload.logLevel, payload.message, payload.timestamp);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
 
-  public async writeLogForFlowNodeInstance(request: Request, response: Response): Promise<void> {
+  public async writeLogForFlowNode(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
-    const flowNodeInstanceId: string = request.params.flow_node_instance_id;
+    const flowNodeId: string = request.params.flow_node_id;
     const payload: WriteLogRequestPayload = request.body;
 
     await this
       .loggingApiService
-      .writeLogForFlowNodeInstance(correlationId, processModelId, flowNodeInstanceId, payload.logLevel, payload.message, payload.timestamp);
+      .writeLogForFlowNode(correlationId, processModelId, flowNodeId, payload.logLevel, payload.message, payload.timestamp);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
