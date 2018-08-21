@@ -1,4 +1,4 @@
-import {ILoggingService, LogEntry, LogLevel, WriteLogRequestPayload} from '@process-engine/logging_api_contracts';
+import {ILoggingApiService, LogEntry, LogLevel, WriteLogRequestPayload} from '@process-engine/logging_api_contracts';
 
 import {UnauthorizedError} from '@essential-projects/errors_ts';
 import {IIdentity, IIdentityService} from '@essential-projects/iam_contracts';
@@ -12,9 +12,9 @@ export class LoggingApiController {
   private httpCodeSuccessfulNoContentResponse: number = 204;
 
   private _identityService: IIdentityService;
-  private _loggingApiService: ILoggingService;
+  private _loggingApiService: ILoggingApiService;
 
-  constructor(identityService: IIdentityService, loggingApiService: ILoggingService) {
+  constructor(identityService: IIdentityService, loggingApiService: ILoggingApiService) {
     this._identityService = identityService;
     this._loggingApiService = loggingApiService;
   }
@@ -23,7 +23,7 @@ export class LoggingApiController {
     return this._identityService;
   }
 
-  private get loggingApiService(): ILoggingService {
+  private get loggingApiService(): ILoggingApiService {
     return this._loggingApiService;
   }
 
