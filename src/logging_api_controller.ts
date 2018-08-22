@@ -66,9 +66,13 @@ export class LoggingApiController {
     const flowNodeId: string = request.params.flow_node_id;
     const payload: WriteLogRequestPayload = request.body;
 
-    await this
-      .loggingApiService
-      .writeLogForFlowNode(correlationId, processModelId, flowNodeId, payload.logLevel, payload.message, payload.timestamp);
+    await this.loggingApiService.writeLogForFlowNode(correlationId,
+                                                     processModelId,
+                                                     payload.flowNodeInstanceId,
+                                                     flowNodeId,
+                                                     payload.logLevel,
+                                                     payload.message,
+                                                     payload.timestamp);
 
     response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
