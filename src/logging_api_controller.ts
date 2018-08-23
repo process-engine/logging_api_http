@@ -1,4 +1,4 @@
-import {ILoggingApiService, LogEntry, LogLevel, WriteLogRequestPayload} from '@process-engine/logging_api_contracts';
+import {ILoggingApiService, LogEntry} from '@process-engine/logging_api_contracts';
 
 import {UnauthorizedError} from '@essential-projects/errors_ts';
 import {IIdentity, IIdentityService} from '@essential-projects/iam_contracts';
@@ -9,7 +9,6 @@ export class LoggingApiController {
   public config: any = undefined;
 
   private httpCodeSuccessfulResponse: number = 200;
-  private httpCodeSuccessfulNoContentResponse: number = 204;
 
   private _identityService: IIdentityService;
   private _loggingApiService: ILoggingApiService;
@@ -27,54 +26,25 @@ export class LoggingApiController {
     return this._loggingApiService;
   }
 
-  public async getLogsForCorrelation(request: Request, response: Response): Promise<void> {
+  public async readLogForCorrelation(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.getLogsForCorrelation(identity, correlationId);
+    const result: Array<LogEntry> = await this.loggingApiService.readLogForCorrelation(identity, correlationId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
-  public async getLogsForProcessModel(request: Request, response: Response): Promise<void> {
+  public async readLogForProcessModel(request: Request, response: Response): Promise<void> {
     const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.getLogsForProcessModel(identity, correlationId, processModelId);
+    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessModel(identity, correlationId, processModelId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
-  }
-
-  public async writeLogForProcessModel(request: Request, response: Response): Promise<void> {
-    const correlationId: string = request.params.correlation_id;
-    const processModelId: string = request.params.process_model_id;
-    const payload: WriteLogRequestPayload = request.body;
-
-    await this
-      .loggingApiService
-      .writeLogForProcessModel(correlationId, processModelId, payload.logLevel, payload.message, payload.timestamp);
-
-    response.status(this.httpCodeSuccessfulNoContentResponse).send();
-  }
-
-  public async writeLogForFlowNode(request: Request, response: Response): Promise<void> {
-    const correlationId: string = request.params.correlation_id;
-    const processModelId: string = request.params.process_model_id;
-    const flowNodeId: string = request.params.flow_node_id;
-    const payload: WriteLogRequestPayload = request.body;
-
-    await this.loggingApiService.writeLogForFlowNode(correlationId,
-                                                     processModelId,
-                                                     payload.flowNodeInstanceId,
-                                                     flowNodeId,
-                                                     payload.logLevel,
-                                                     payload.message,
-                                                     payload.timestamp);
-
-    response.status(this.httpCodeSuccessfulNoContentResponse).send();
   }
 
   private async _resolveIdentity(request: Request): Promise<IIdentity> {
