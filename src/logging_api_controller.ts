@@ -26,23 +26,12 @@ export class LoggingApiController {
     return this._loggingApiService;
   }
 
-  public async readLogForCorrelation(request: Request, response: Response): Promise<void> {
-    const correlationId: string = request.params.correlation_id;
-
-    const identity: IIdentity = await this._resolveIdentity(request);
-
-    const result: Array<LogEntry> = await this.loggingApiService.readLogForCorrelation(identity, correlationId);
-
-    response.status(this.httpCodeSuccessfulResponse).json(result);
-  }
-
   public async readLogForProcessModel(request: Request, response: Response): Promise<void> {
-    const correlationId: string = request.params.correlation_id;
     const processModelId: string = request.params.process_model_id;
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessModel(identity, correlationId, processModelId);
+    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessModel(identity, processModelId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }

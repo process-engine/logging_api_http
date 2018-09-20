@@ -29,7 +29,6 @@ export class LoggingApiRouter extends BaseRouter {
   private registerRoutes(): void {
     const controller: LoggingApiController = this.loggingApiRestController;
 
-    this.router.get(restSettings.paths.getLogForCorrelation, wrap(controller.readLogForCorrelation.bind(controller)));
     this.router.get(restSettings.paths.getLogForProcessModel, wrap(controller.readLogForProcessModel.bind(controller)));
   }
 }
