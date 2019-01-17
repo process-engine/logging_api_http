@@ -1,6 +1,6 @@
 {
   "name": "@process-engine/logging_api_http",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Contains the HTTP endpoints for the logging api.",
   "main": "dist/commonjs/index.js",
   "typings": "dist/index.d.ts",
