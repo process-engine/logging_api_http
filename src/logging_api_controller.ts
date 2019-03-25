@@ -42,7 +42,7 @@ export class LoggingApiController {
 
     const identity: IIdentity = await this._resolveIdentity(request);
 
-    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessInstance(identity, processModelId);
+    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessInstance(identity, processModelId, processInstanceId);
 
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
