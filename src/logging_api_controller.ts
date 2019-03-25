@@ -36,6 +36,17 @@ export class LoggingApiController {
     response.status(this.httpCodeSuccessfulResponse).json(result);
   }
 
+  public async readLogForProcessInstance(request: Request, response: Response): Promise<void> {
+    const processModelId: string = request.params.process_model_id;
+    const processInstanceId: string = request.params.process_instance_id;
+
+    const identity: IIdentity = await this._resolveIdentity(request);
+
+    const result: Array<LogEntry> = await this.loggingApiService.readLogForProcessInstance(identity, processModelId);
+
+    response.status(this.httpCodeSuccessfulResponse).json(result);
+  }
+
   private async _resolveIdentity(request: Request): Promise<IIdentity> {
     const bearerToken: string = request.get('authorization');
 
